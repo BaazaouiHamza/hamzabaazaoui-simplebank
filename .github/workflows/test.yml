@@ -42,7 +42,7 @@ jobs:
         sudo mv migrate.linux-amd64 /usr/bin/migrate
         which migrate
     - name: Run migrations
-      run: migrate -path db/migration -database "postgresql://postgres:07719811gg@localhost:5432/simple_bank" -verbose up
+      run: migrate -path db/migration -database "postgresql://postgres:07719811gg@localhost:5432/simple_bank?sslmode=disable" -verbose up
 
     - name: Test
       run: go test -v ./...
