@@ -21,11 +21,31 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+      # Service containers to run with `container-job`
+      services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres:12
+        # Provide the password for postgres
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: simple_bank
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      -name: Run migrations
+      run: migrate -path db/migration -database "postgresql://postgres:07719811gg@localhost:5432/simple_bank" -verbose up
 
       # Runs a set of commands using the runners shell
       - name: Test
