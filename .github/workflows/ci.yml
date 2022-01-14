@@ -1,24 +1,14 @@
-# This is a basic workflow to help you get started with Actions
-
 name: ci-test
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+
   test:
-   - name: Test
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
       # Service containers to run with `container-job`
@@ -39,17 +29,22 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      -name: Run migrations
-       run: migrate -path db/migration -database "postgresql://postgres:07719811gg@localhost:5432/simple_bank" -verbose up
+    -name: Run migrations
+     run: migrate -path db/migration -database "postgresql://postgres:07719811gg@localhost:5432/simple_bank" -verbose up
 
-      - name: Install golang-migrate
-        run: scoop install migrate
+    - name: Install golang-migrate
+      run: scoop install migrate
 
-      # Runs a set of commands using the runners shell
-      - name: Test
-        run: go test -v -cover ./...
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.17
+
+    - name: Test
+      run: go test -v ./...
+
+
+
