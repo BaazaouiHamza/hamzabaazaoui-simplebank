@@ -1,6 +1,6 @@
 -- name: CreateEntry :one
 INSERT INTO entries (
-  account_id, 
+  account_id,
   amount
 ) VALUES (
   $1, $2
@@ -16,4 +16,3 @@ WHERE account_id = $1
 ORDER BY id
 LIMIT $2
 OFFSET $3;
-
