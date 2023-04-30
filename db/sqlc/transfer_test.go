@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/hamzabaazaoui/simplebank/util"
 	"github.com/stretchr/testify/require"
-	"gitub.com/hamzabaazaoui/simplebank/util"
 )
 
 func createRandomTranfer(t *testing.T, from_account Account, to_account Account) Transfer {
